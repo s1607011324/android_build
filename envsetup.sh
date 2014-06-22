@@ -572,6 +572,7 @@ function brunch()
 function breakfast()
 {
     target=$1
+    local variant=$2
     CUSTOM_DEVICES_ONLY="true"
     unset LUNCH_MENU_CHOICES
     for f in `/bin/ls vendor/aosp/vendorsetup.sh 2> /dev/null`
@@ -591,7 +592,10 @@ function breakfast()
             lunch $target
         else
             # This is probably just the model name
-            lunch $target-user
+            if [ -z "$variant" ]; then
+                variant="userdebug"
+            fi
+            lunch $target-$variant
         fi
     fi
     return $?
